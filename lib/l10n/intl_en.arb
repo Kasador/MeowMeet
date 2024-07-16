@@ -1,0 +1,231 @@
+{
+  "appName": "MeowMeet",
+  "slogan": "Connect, share, and discover moments with friends worldwide.",
+  "createAccount": "Create Account",
+  "signIn": "Already have an account? Sign In",
+  "login": "Login",
+  "welcomeBack": "Hello, welcome back!",
+  "username": "Username",
+  "password": "Password",
+  "logInButton": "Log In",
+  "dontHaveAccount": "Don't have an account? Sign Up",
+  "signInWithGoogle": "Sign in with Google",
+  "or": "or",
+  "feed": "Feed",
+  "chat": "Chat",
+  "map": "Map",
+  "profile": "Profile",
+  "completeProfile": "Complete your profile",
+  "dateOfBirth": "Date of Birth",
+  "nationality": "Nationality",
+  "gender": "Gender",
+  "saveProfile": "Save Profile",
+  "logout": "Logout",
+  "settings": "Settings",
+  "common": "Common",
+  "language": "Language",
+  "enableCustomTheme": "Enable custom theme",
+  "account": "Account",
+  "phoneNumber": "Phone number",
+  "email": "Email",
+  "security": "Security",
+  "changePassword": "Change password",
+  "useFingerprint": "Use fingerprint",
+  "enableLock": "Enable Lock",
+  "misc": "Misc",
+  "termsOfService": "Terms of Service",
+  "openSourceLicenses": "Open source licenses",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "invalidUsername": "Invalid username",
+  "usernameTaken": "Username is taken",
+  "continueButton": "Continue",
+  "setPassword": "Set a password",
+  "confirmPassword": "Confirm Password",
+  "passwordMatch": "Passwords do not match",
+  "passwordLength": "Password must be at least 8 characters long",
+  "ageRestriction": "You must be at least 18 years old",
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+  "statusMessageHint": "Enter your status message",
+  "followers": "Followers",
+  "friends": "Friends",
+  "name": "Name",
+  "nativeLanguage": "Native Language",
+  "learningLanguage": "Learning Language",
+  "country": "Country",
+  "joinedIn": "Joined in",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "@slogan": {
+    "description": "The slogan of the application"
+  },
+  "@createAccount": {
+    "description": "Button text for creating an account"
+  },
+  "@signIn": {
+    "description": "Button text for signing in"
+  },
+  "@login": {
+    "description": "Login text"
+  },
+  "@welcomeBack": {
+    "description": "Welcome back text"
+  },
+  "@username": {
+    "description": "Username field label"
+  },
+  "@password": {
+    "description": "Password field label"
+  },
+  "@logInButton": {
+    "description": "Log in button text"
+  },
+  "@dontHaveAccount": {
+    "description": "Text for sign-up suggestion"
+  },
+  "@signInWithGoogle": {
+    "description": "Sign in with Google button text"
+  },
+  "@or": {
+    "description": "Or text"
+  },
+  "@feed": {
+    "description": "Feed tab label"
+  },
+  "@chat": {
+    "description": "Chat tab label"
+  },
+  "@map": {
+    "description": "Map tab label"
+  },
+  "@profile": {
+    "description": "Profile tab label"
+  },
+  "@completeProfile": {
+    "description": "Complete profile text"
+  },
+  "@dateOfBirth": {
+    "description": "Date of birth field label"
+  },
+  "@nationality": {
+    "description": "Nationality field label"
+  },
+  "@gender": {
+    "description": "Gender field label"
+  },
+  "@saveProfile": {
+    "description": "Save profile button text"
+  },
+  "@logout": {
+    "description": "Logout button text"
+  },
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  "@common": {
+    "description": "Common section title in settings"
+  },
+  "@language": {
+    "description": "Language setting"
+  },
+  "@enableCustomTheme": {
+    "description": "Enable custom theme setting"
+  },
+  "@account": {
+    "description": "Account section title in settings"
+  },
+  "@phoneNumber": {
+    "description": "Phone number setting"
+  },
+  "@email": {
+    "description": "Email setting"
+  },
+  "@security": {
+    "description": "Security section title in settings"
+  },
+  "@changePassword": {
+    "description": "Change password setting"
+  },
+  "@useFingerprint": {
+    "description": "Use fingerprint setting"
+  },
+  "@enableLock": {
+    "description": "Enable lock setting"
+  },
+  "@misc": {
+    "description": "Misc section title in settings"
+  },
+  "@termsOfService": {
+    "description": "Terms of Service setting"
+  },
+  "@openSourceLicenses": {
+    "description": "Open source licenses setting"
+  },
+  "@firstName": {
+    "description": "First name field label"
+  },
+  "@lastName": {
+    "description": "Last name field label"
+  },
+  "@invalidUsername": {
+    "description": "Invalid username error"
+  },
+  "@usernameTaken": {
+    "description": "Username is taken error"
+  },
+  "@continueButton": {
+    "description": "Continue button text"
+  },
+  "@setPassword": {
+    "description": "Set a password title"
+  },
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+  "@passwordMatch": {
+    "description": "Passwords do not match error"
+  },
+  "@passwordLength": {
+    "description": "Password length error"
+  },
+  "@ageRestriction": {
+    "description": "Age restriction error"
+  },
+  "@male": {
+    "description": "Male gender label"
+  },
+  "@female": {
+    "description": "Female gender label"
+  },
+  "@other": {
+    "description": "Other gender label"
+  },
+  "@statusMessageHint": {
+    "description": "Status message hint"
+  },
+  "@followers": {
+    "description": "Followers label"
+  },
+  "@friends": {
+    "description": "Friends label"
+  },
+  "@name": {
+    "description": "Name label"
+  },
+  "@nativeLanguage": {
+    "description": "Native language label"
+  },
+  "@learningLanguage": {
+    "description": "Learning language label"
+  },
+  "@joinedIn": {
+    "description": "Joined in label"
+  },
+  "@country": {
+    "description": "Country field label"
+  },
+  "@@locale": "en"
+}
