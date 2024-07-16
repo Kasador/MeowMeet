@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:navigation_view/item_navigation_view.dart';
+import 'package:navigation_view/navigation_view.dart';
 import 'chat_screen.dart';
 import 'feed_screen.dart';
 import 'map_screen.dart';
+import 'random_chat_screen.dart';
 import 'profile_screen.dart';
 import '../theme.dart';
 import '../generated/l10n.dart';
@@ -19,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _widgetOptions = <Widget>[
     FeedScreen(),
     ChatScreen(),
+    RandomChatScreen(),
     MapScreen(),
     ProfileScreen(),
   ];
@@ -41,29 +45,49 @@ class _HomeScreenState extends State<HomeScreen> {
         data: Theme.of(context).copyWith(
           canvasColor: AppTheme.primaryColor,
         ),
-        child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: localizations.feed,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 40, right: 20, left: 20), // Adjust padding to prevent overflow
+          child: NavigationView(
+            onChangePage: (index) {
+              _onItemTapped(index);
+            },
+            color: AppTheme.primaryColor,
+            curve: Curves.easeInQuint,
+            durationAnimation: const Duration(milliseconds: 300),
+            borderRadius: BorderRadius.circular(50),
+            gradient: LinearGradient(
+              colors: [
+                Colors.white.withAlpha(0),
+                Colors.white.withOpacity(0.2)
+              ],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(0.0, 1.0),
+              stops: const [0.0, 1.0],
+              tileMode: TileMode.clamp
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: localizations.chat,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: localizations.map,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: localizations.profile,
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: AppTheme.backgroundColor,
-          unselectedItemColor: Colors.white,
-          onTap: _onItemTapped,
+            items: [
+              ItemNavigationView(
+                childAfter: const Icon(Icons.home_rounded, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.home_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+              ),
+              ItemNavigationView(
+                childAfter: const Icon(Icons.chat, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.chat_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+              ),
+              ItemNavigationView(
+                childAfter: const Icon(Icons.shuffle_on_outlined, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.shuffle, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+              ),
+              ItemNavigationView(
+                childAfter: const Icon(Icons.map, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.map_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+              ),
+              ItemNavigationView(
+                childAfter: const Icon(Icons.person, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.person_outline, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -36,6 +36,7 @@ dependencies:
   country_codes_info: ^0.0.7
   dotenv: ^4.2.0
   shared_preferences: ^2.2.3
+  navigation_view: ^1.0.6
   flutter_localizations:
     sdk: flutter
   intl_utils: ^2.7.0

@@ -813,6 +813,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  navigation_view:
+    dependency: "direct main"
+    description:
+      name: navigation_view
+      sha256: "50981eefd678b1c3972dbb2f18cc88d577539c9af7e8e81f2f70bcdf79532a61"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   nested:
     dependency: transitive
     description:
