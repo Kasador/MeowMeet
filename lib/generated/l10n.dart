@@ -619,6 +619,136 @@ class S {
       args: [],
     );
   }
+
+  /// `The selected image contains inappropriate content and cannot be uploaded.`
+  String get errorMessage {
+    return Intl.message(
+      'The selected image contains inappropriate content and cannot be uploaded.',
+      name: 'errorMessage',
+      desc: 'Error message for inappropriate content',
+      args: [],
+    );
+  }
+
+  /// `Error processing image for inappropriate content.`
+  String get errorProcessingImage {
+    return Intl.message(
+      'Error processing image for inappropriate content.',
+      name: 'errorProcessingImage',
+      desc: 'Error message for processing image',
+      args: [],
+    );
+  }
+
+  /// `Image uploaded successfully!`
+  String get imageUploadedSuccessfully {
+    return Intl.message(
+      'Image uploaded successfully!',
+      name: 'imageUploadedSuccessfully',
+      desc: 'Message for successful image upload',
+      args: [],
+    );
+  }
+
+  /// `Error uploading image.`
+  String get errorUploadingImage {
+    return Intl.message(
+      'Error uploading image.',
+      name: 'errorUploadingImage',
+      desc: 'Error message for uploading image',
+      args: [],
+    );
+  }
+
+  /// `Online`
+  String get online {
+    return Intl.message(
+      'Online',
+      name: 'online',
+      desc: 'Online status',
+      args: [],
+    );
+  }
+
+  /// `Offline`
+  String get offline {
+    return Intl.message(
+      'Offline',
+      name: 'offline',
+      desc: 'Offline status',
+      args: [],
+    );
+  }
+
+  /// `Moments`
+  String get moments {
+    return Intl.message(
+      'Moments',
+      name: 'moments',
+      desc: 'Moments tab label',
+      args: [],
+    );
+  }
+
+  /// `Moments content goes here`
+  String get momentsContent {
+    return Intl.message(
+      'Moments content goes here',
+      name: 'momentsContent',
+      desc: 'Content for Moments tab',
+      args: [],
+    );
+  }
+
+  /// `Change Language`
+  String get changeLanguage {
+    return Intl.message(
+      'Change Language',
+      name: 'changeLanguage',
+      desc: 'Title for change language dialog',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to change the app language?`
+  String get areYouSureChangeLanguage {
+    return Intl.message(
+      'Are you sure you want to change the app language?',
+      name: 'areYouSureChangeLanguage',
+      desc: 'Confirmation message for changing language',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: 'Cancel button text',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: 'Confirm button text',
+      args: [],
+    );
+  }
+
+  /// `Search Language`
+  String get searchLanguage {
+    return Intl.message(
+      'Search Language',
+      name: 'searchLanguage',
+      desc: 'Hint text for language search field',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

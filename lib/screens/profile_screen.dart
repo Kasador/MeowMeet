@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -88,9 +89,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         if (adult == 'LIKELY' || adult == 'VERY_LIKELY' || 
             violence == 'LIKELY' || violence == 'VERY_LIKELY' ||
-            racy == 'LIKELY' || racy == 'VERY_LIKELY') {
+            racy == 'VERY_LIKELY') {
           setState(() {
-            _message = 'The selected image contains inappropriate content and cannot be uploaded.';
+            _message = S.of(context).errorMessage;
             _isUploading = false;
           });
         } else {
@@ -101,14 +102,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       } else {
         print('Error with the Google Vision API: ${response.statusCode}');
-        _showSnackBar('Error processing image for inappropriate content.');
+        _showSnackBar(S.of(context).errorProcessingImage);
         setState(() {
           _isUploading = false;
         });
       }
     } catch (e) {
       print('Error with the Google Vision API: $e');
-      _showSnackBar('Error processing image for inappropriate content.');
+      _showSnackBar(S.of(context).errorProcessingImage);
       setState(() {
         _isUploading = false;
       });
@@ -169,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       setState(() {
         _isUploading = false;
-        _message = 'Image uploaded successfully!';
+        _message = S.of(context).imageUploadedSuccessfully;
       });
 
       print('Uploaded Image URL: $url');
@@ -178,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _isUploading = false;
       });
       print('Error uploading image: $e');
-      _showSnackBar('Error uploading image: $e');
+      _showSnackBar(S.of(context).errorUploadingImage);
     }
   }
 
@@ -196,8 +197,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final User? user = FirebaseAuth.instance.currentUser;
     final localizations = S.of(context);
 
-    return Scaffold(
-      body: FutureBuilder<UserModel?>(
+    return DefaultTabController(
+      length: 2,
+      child: FutureBuilder<UserModel?>(
         future: user != null ? auth.getUserData(user.uid) : null,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -217,11 +219,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             return Scaffold(
               appBar: AppBar(
-                title: Text('@${userData.username}'),
+                backgroundColor: AppTheme.backgroundColor,
+                title: Text(
+                  '@${userData.username}',
+                  style: TextStyle(color: AppTheme.primaryColor),
+                ),
                 automaticallyImplyLeading: false,
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.settings),
+                    color: AppTheme.secondaryColor.withAlpha(100),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -278,7 +285,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 8),
-                              // Gender, age, and account type
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 17,
+                                    height: 17,
+                                    decoration: BoxDecoration(
+                                      color: userData.lastActive != null &&
+                                              DateTime.now()
+                                                  .difference(userData.lastActive!.toDate())
+                                                  .inMinutes < 5
+                                          ? Colors.green
+                                          : Colors.grey,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    userData.lastActive != null &&
+                                            DateTime.now()
+                                                .difference(userData.lastActive!.toDate())
+                                                .inMinutes < 5
+                                        ? localizations.online
+                                        : localizations.offline,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
                               Row(
                                 children: [
                                   if (userData.gender == 'Male')
@@ -301,34 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 10), // Add space between flag and online status dot
-                          Row(
-                            children: [
-                              Container(
-                                width: 17,
-                                height: 17,
-                                decoration: BoxDecoration(
-                                  color: userData.lastActive != null &&
-                                          DateTime.now()
-                                              .difference(userData.lastActive!.toDate())
-                                              .inMinutes < 5
-                                      ? Colors.green
-                                      : Colors.grey,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                userData.lastActive != null &&
-                                        DateTime.now()
-                                            .difference(userData.lastActive!.toDate())
-                                            .inMinutes < 5
-                                    ? 'Online'
-                                    : 'Offline',
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ],
-                          ),
+                          const SizedBox(width: 10),
                           if (_isUploading)
                             const CircularProgressIndicator(),
                         ],
@@ -382,50 +389,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      Text(
-                        '${localizations.name}: ${userData.firstName} ${userData.lastName}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.email}: ${userData.email}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.country}: ${userData.country}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.nativeLanguage}: ${userData.nativeLanguage}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.learningLanguage}: ${userData.learningLanguage}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.dateOfBirth}: ${userData.dateOfBirth}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.gender}: ${userData.gender}',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        '${localizations.joinedIn}: $memberSinceFormatted',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      if (_message.isNotEmpty)
-                        Text(
-                          _message,
-                          style: const TextStyle(color: Colors.red),
+                      Center(
+                        child: ButtonsTabBar(
+                          backgroundColor: AppTheme.backgroundColor,
+                          unselectedBackgroundColor: AppTheme.backgroundColor,
+                          unselectedLabelStyle: TextStyle(color: AppTheme.secondaryColor.withAlpha(100)),
+                          labelStyle: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.bold),
+                          tabs: [
+                            Tab(
+                              icon: Icon(Icons.person),
+                              text: localizations.profile,
+                            ),
+                            Tab(
+                              icon: Icon(Icons.photo_library),
+                              text: localizations.moments,
+                            ),
+                          ],
                         ),
+                      ),
+                      Container(
+                        height: 400,
+                        child: TabBarView(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 20),
+                                Text(
+                                  '${localizations.name}: ${userData.firstName} ${userData.lastName}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.email}: ${userData.email}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.country}: ${userData.country}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.nativeLanguage}: ${userData.nativeLanguage}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.learningLanguage}: ${userData.learningLanguage}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.dateOfBirth}: ${userData.dateOfBirth}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.gender}: ${userData.gender}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  '${localizations.joinedIn}: $memberSinceFormatted',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                if (_message.isNotEmpty)
+                                  Text(
+                                    _message,
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
+                              ],
+                            ),
+                            Center(child: Text(localizations.momentsContent)),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

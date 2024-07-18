@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 import '../generated/l10n.dart';
+import '../main.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -22,7 +26,11 @@ class SettingsScreen extends StatelessWidget {
               SettingsTile.navigation(
                 leading: const Icon(Icons.language),
                 title: Text(localizations.language),
-                value: const Text('English'),
+                onPressed: (context) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const LanguageSettingsScreen(),
+                  ));
+                },
               ),
               SettingsTile.switchTile(
                 onToggle: (value) {},
@@ -100,6 +108,132 @@ class SettingsScreen extends StatelessWidget {
 
   Future<void> _logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pushReplacementNamed('/login'); // Update the route to your login screen
+    if (!context.mounted) return;
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
+}
+
+class LanguageSettingsScreen extends StatefulWidget {
+  const LanguageSettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  _LanguageSettingsScreenState createState() => _LanguageSettingsScreenState();
+}
+
+class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
+  late String _currentLanguage;
+  final TextEditingController _searchController = TextEditingController();
+  List<MapEntry<String, String>> _filteredLanguages = [];
+  Map<String, String> languageMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _currentLanguage = 'en'; // Set a default value for _currentLanguage
+    _loadCurrentLanguage();
+    _loadAvailableLanguages();
+  }
+
+  void _loadCurrentLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _currentLanguage = prefs.getString('language_code') ?? 'en';
+    });
+  }
+
+  void _loadAvailableLanguages() {
+    // Hardcoding some languages for demonstration
+    languageMap = {
+      'en': 'English',
+      'es': 'Spanish',
+      'fr': 'French',
+      'de': 'German',
+    };
+
+    setState(() {
+      _filteredLanguages = languageMap.entries.toList();
+    });
+  }
+
+  void _filterLanguages(String query) {
+    setState(() {
+      _filteredLanguages = languageMap.entries
+          .where((entry) => entry.value.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
+  void _changeLanguage(String? languageCode) async {
+    if (languageCode == null || languageCode == _currentLanguage) return;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        final localizations = S.of(context);
+        return AlertDialog(
+          title: Text(localizations.changeLanguage),
+          content: Text(localizations.areYouSureChangeLanguage),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(localizations.cancel),
+            ),
+            TextButton(
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('language_code', languageCode);
+                if (!context.mounted) return;
+                MainApp.setLocale(context, Locale(languageCode));
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop(); // Close the LanguageSettingsScreen
+                Navigator.of(context).pop(); // Close the SettingsScreen and go back to ProfileScreen
+              },
+              child: Text(localizations.confirm),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = S.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(localizations.language),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: localizations.searchLanguage,
+              ),
+              onChanged: _filterLanguages,
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _filteredLanguages.length,
+              itemBuilder: (context, index) {
+                final language = _filteredLanguages[index];
+                return ListTile(
+                  title: Text(language.value),
+                  trailing: _currentLanguage == language.key ? const Icon(Icons.check) : null,
+                  onTap: () => _changeLanguage(language.key),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -56,6 +56,19 @@
   "learningLanguage": "Learning Language",
   "country": "Country",
   "joinedIn": "Joined in",
+  "errorMessage": "The selected image contains inappropriate content and cannot be uploaded.",
+  "errorProcessingImage": "Error processing image for inappropriate content.",
+  "imageUploadedSuccessfully": "Image uploaded successfully!",
+  "errorUploadingImage": "Error uploading image.",
+  "online": "Online",
+  "offline": "Offline",
+  "moments": "Moments",
+  "momentsContent": "Moments content goes here",
+  "changeLanguage": "Change Language",
+  "areYouSureChangeLanguage": "Are you sure you want to change the app language?",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "searchLanguage": "Search Language",
   "@appName": {
     "description": "The name of the application"
   },
@@ -226,6 +239,45 @@
   },
   "@country": {
     "description": "Country field label"
+  },
+  "@errorMessage": {
+    "description": "Error message for inappropriate content"
+  },
+  "@errorProcessingImage": {
+    "description": "Error message for processing image"
+  },
+  "@imageUploadedSuccessfully": {
+    "description": "Message for successful image upload"
+  },
+  "@errorUploadingImage": {
+    "description": "Error message for uploading image"
+  },
+  "@online": {
+    "description": "Online status"
+  },
+  "@offline": {
+    "description": "Offline status"
+  },
+  "@moments": {
+    "description": "Moments tab label"
+  },
+  "@momentsContent": {
+    "description": "Content for Moments tab"
+  },
+  "@changeLanguage": {
+    "description": "Title for change language dialog"
+  },
+  "@areYouSureChangeLanguage": {
+    "description": "Confirmation message for changing language"
+  },
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+  "@searchLanguage": {
+    "description": "Hint text for language search field"
   },
   "@@locale": "en"
 }
