@@ -26,12 +26,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "ageRestriction": MessageLookupByLibrary.simpleMessage(
             "You must be at least 18 years old"),
         "appName": MessageLookupByLibrary.simpleMessage("MeowMeet"),
+        "areYouSureChangeLanguage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to change the app language?"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "changeLanguage":
+            MessageLookupByLibrary.simpleMessage("Change Language"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "common": MessageLookupByLibrary.simpleMessage("Common"),
         "completeProfile":
             MessageLookupByLibrary.simpleMessage("Complete your profile"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "continueButton": MessageLookupByLibrary.simpleMessage("Continue"),
@@ -44,12 +50,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "enableCustomTheme":
             MessageLookupByLibrary.simpleMessage("Enable custom theme"),
         "enableLock": MessageLookupByLibrary.simpleMessage("Enable Lock"),
+        "errorMessage": MessageLookupByLibrary.simpleMessage(
+            "The selected image contains inappropriate content and cannot be uploaded."),
+        "errorProcessingImage": MessageLookupByLibrary.simpleMessage(
+            "Error processing image for inappropriate content."),
+        "errorUploadingImage":
+            MessageLookupByLibrary.simpleMessage("Error uploading image."),
         "feed": MessageLookupByLibrary.simpleMessage("Feed"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "firstName": MessageLookupByLibrary.simpleMessage("First Name"),
         "followers": MessageLookupByLibrary.simpleMessage("Followers"),
         "friends": MessageLookupByLibrary.simpleMessage("Friends"),
         "gender": MessageLookupByLibrary.simpleMessage("Gender"),
+        "imageUploadedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Image uploaded successfully!"),
         "invalidUsername":
             MessageLookupByLibrary.simpleMessage("Invalid username"),
         "joinedIn": MessageLookupByLibrary.simpleMessage("Joined in"),
@@ -63,10 +77,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "male": MessageLookupByLibrary.simpleMessage("Male"),
         "map": MessageLookupByLibrary.simpleMessage("Map"),
         "misc": MessageLookupByLibrary.simpleMessage("Misc"),
+        "moments": MessageLookupByLibrary.simpleMessage("Moments"),
+        "momentsContent":
+            MessageLookupByLibrary.simpleMessage("Moments content goes here"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
         "nativeLanguage":
             MessageLookupByLibrary.simpleMessage("Native Language"),
+        "offline": MessageLookupByLibrary.simpleMessage("Offline"),
+        "online": MessageLookupByLibrary.simpleMessage("Online"),
         "openSourceLicenses":
             MessageLookupByLibrary.simpleMessage("Open source licenses"),
         "or": MessageLookupByLibrary.simpleMessage("or"),
@@ -79,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Save Profile"),
+        "searchLanguage":
+            MessageLookupByLibrary.simpleMessage("Search Language"),
         "security": MessageLookupByLibrary.simpleMessage("Security"),
         "setPassword": MessageLookupByLibrary.simpleMessage("Set a password"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

@@ -26,12 +26,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "ageRestriction":
             MessageLookupByLibrary.simpleMessage("Devi avere almeno 18 anni"),
         "appName": MessageLookupByLibrary.simpleMessage("MeowMeet"),
+        "areYouSureChangeLanguage": MessageLookupByLibrary.simpleMessage(
+            "Sei sicuro di voler cambiare la lingua dell\'app?"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Annulla"),
+        "changeLanguage": MessageLookupByLibrary.simpleMessage("Cambia lingua"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Cambiare la password"),
         "chat": MessageLookupByLibrary.simpleMessage("Chiacchierata"),
         "common": MessageLookupByLibrary.simpleMessage("Comune"),
         "completeProfile":
             MessageLookupByLibrary.simpleMessage("Completa il tuo profilo"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confermare"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Conferma password"),
         "continueButton": MessageLookupByLibrary.simpleMessage("Continua"),
@@ -45,12 +50,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "enableCustomTheme":
             MessageLookupByLibrary.simpleMessage("Abilita tema personalizzato"),
         "enableLock": MessageLookupByLibrary.simpleMessage("Abilita Blocco"),
+        "errorMessage": MessageLookupByLibrary.simpleMessage(
+            "L\'immagine selezionata contiene contenuti inappropriati e non può essere caricata."),
+        "errorProcessingImage": MessageLookupByLibrary.simpleMessage(
+            "Errore durante l\'elaborazione dell\'immagine per contenuti inappropriati."),
+        "errorUploadingImage": MessageLookupByLibrary.simpleMessage(
+            "Errore durante il caricamento dell\'immagine."),
         "feed": MessageLookupByLibrary.simpleMessage("Foraggio"),
         "female": MessageLookupByLibrary.simpleMessage("Femmina"),
         "firstName": MessageLookupByLibrary.simpleMessage("Nome di battesimo"),
         "followers": MessageLookupByLibrary.simpleMessage("Seguaci"),
         "friends": MessageLookupByLibrary.simpleMessage("Amici"),
         "gender": MessageLookupByLibrary.simpleMessage("Genere"),
+        "imageUploadedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Immagine caricata con successo!"),
         "invalidUsername":
             MessageLookupByLibrary.simpleMessage("Nome utente non valido"),
         "joinedIn": MessageLookupByLibrary.simpleMessage("Entrato in"),
@@ -64,9 +77,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "male": MessageLookupByLibrary.simpleMessage("Maschio"),
         "map": MessageLookupByLibrary.simpleMessage("Carta geografica"),
         "misc": MessageLookupByLibrary.simpleMessage("Varie"),
+        "moments": MessageLookupByLibrary.simpleMessage("Momenti"),
+        "momentsContent": MessageLookupByLibrary.simpleMessage(
+            "Il contenuto di Moments va qui"),
         "name": MessageLookupByLibrary.simpleMessage("Nome"),
         "nationality": MessageLookupByLibrary.simpleMessage("Nazionalità"),
         "nativeLanguage": MessageLookupByLibrary.simpleMessage("Madrelingua"),
+        "offline": MessageLookupByLibrary.simpleMessage("disconnesso"),
+        "online": MessageLookupByLibrary.simpleMessage("in linea"),
         "openSourceLicenses":
             MessageLookupByLibrary.simpleMessage("Licenze open source"),
         "or": MessageLookupByLibrary.simpleMessage("O"),
@@ -80,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Numero di telefono"),
         "profile": MessageLookupByLibrary.simpleMessage("Profilo"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Salva il profilo"),
+        "searchLanguage": MessageLookupByLibrary.simpleMessage("Cerca lingua"),
         "security": MessageLookupByLibrary.simpleMessage("Sicurezza"),
         "setPassword":
             MessageLookupByLibrary.simpleMessage("Imposta una password"),

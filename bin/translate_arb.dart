@@ -15,7 +15,7 @@ Future<void> main() async {
   final arbFile = File('lib/l10n/intl_en.arb');
   final arbContent = json.decode(await arbFile.readAsString());
 
-  const targetLanguages = ['es', 'fr', 'de', 'it', 'zh', 'zh_Hant']; // Use underscore instead of hyphen
+  const targetLanguages = ['es', 'fr', 'de', 'it', 'zh', 'zh_Hant'];
 
   for (var language in targetLanguages) {
     final translatedContent = await translateArbContent(arbContent, language.replaceAll('_', '-'), apiKey); // Replace underscore with hyphen for translation

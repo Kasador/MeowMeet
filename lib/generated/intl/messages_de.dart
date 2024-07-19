@@ -26,12 +26,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "ageRestriction": MessageLookupByLibrary.simpleMessage(
             "Sie müssen mindestens 18 Jahre alt sein"),
         "appName": MessageLookupByLibrary.simpleMessage("MeowMeet"),
+        "areYouSureChangeLanguage": MessageLookupByLibrary.simpleMessage(
+            "Möchten Sie die App-Sprache wirklich ändern?"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Stornieren"),
+        "changeLanguage":
+            MessageLookupByLibrary.simpleMessage("Sprache ändern"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Kennwort ändern"),
         "chat": MessageLookupByLibrary.simpleMessage("Plaudern"),
         "common": MessageLookupByLibrary.simpleMessage("Gemeinsam"),
         "completeProfile":
             MessageLookupByLibrary.simpleMessage("vervollständige dein Profil"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Bestätige das Passwort"),
         "continueButton": MessageLookupByLibrary.simpleMessage("Weitermachen"),
@@ -45,12 +51,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "enableCustomTheme": MessageLookupByLibrary.simpleMessage(
             "Benutzerdefiniertes Design aktivieren"),
         "enableLock": MessageLookupByLibrary.simpleMessage("Sperre aktivieren"),
+        "errorMessage": MessageLookupByLibrary.simpleMessage(
+            "Das ausgewählte Bild enthält unangemessene Inhalte und kann nicht hochgeladen werden."),
+        "errorProcessingImage": MessageLookupByLibrary.simpleMessage(
+            "Fehler bei der Bildverarbeitung aufgrund unangemessenen Inhalts."),
+        "errorUploadingImage": MessageLookupByLibrary.simpleMessage(
+            "Fehler beim hochladen des Bildes."),
         "feed": MessageLookupByLibrary.simpleMessage("Füttern"),
         "female": MessageLookupByLibrary.simpleMessage("Weiblich"),
         "firstName": MessageLookupByLibrary.simpleMessage("Vorname"),
         "followers": MessageLookupByLibrary.simpleMessage("Anhänger"),
         "friends": MessageLookupByLibrary.simpleMessage("Freunde"),
         "gender": MessageLookupByLibrary.simpleMessage("Geschlecht"),
+        "imageUploadedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Bild erfolgreich hochgeladen!"),
         "invalidUsername":
             MessageLookupByLibrary.simpleMessage("Ungültiger Benutzername"),
         "joinedIn": MessageLookupByLibrary.simpleMessage("Schloss sich an"),
@@ -65,10 +79,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "male": MessageLookupByLibrary.simpleMessage("Männlich"),
         "map": MessageLookupByLibrary.simpleMessage("Karte"),
         "misc": MessageLookupByLibrary.simpleMessage("Sonstiges"),
+        "moments": MessageLookupByLibrary.simpleMessage("Momente"),
+        "momentsContent": MessageLookupByLibrary.simpleMessage(
+            "Hier kommt der Inhalt von Moments hin"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "nationality":
             MessageLookupByLibrary.simpleMessage("Staatsangehörigkeit"),
         "nativeLanguage": MessageLookupByLibrary.simpleMessage("Muttersprache"),
+        "offline": MessageLookupByLibrary.simpleMessage("Offline"),
+        "online": MessageLookupByLibrary.simpleMessage("Online"),
         "openSourceLicenses":
             MessageLookupByLibrary.simpleMessage("Open Source-Lizenzen"),
         "or": MessageLookupByLibrary.simpleMessage("oder"),
@@ -81,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Telefonnummer"),
         "profile": MessageLookupByLibrary.simpleMessage("Profil"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Profil sichern"),
+        "searchLanguage": MessageLookupByLibrary.simpleMessage("Suchsprache"),
         "security": MessageLookupByLibrary.simpleMessage("Sicherheit"),
         "setPassword":
             MessageLookupByLibrary.simpleMessage("Legen Sie ein Passwort fest"),

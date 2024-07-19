@@ -37,6 +37,7 @@ dependencies:
   country_codes_info: ^0.0.7
   dotenv: ^4.2.0
   buttons_tabbar: ^1.3.12
+  flutter_localized_locales: ^2.0.5
   shared_preferences: ^2.2.3
   navigation_view: ^1.0.6
   flutter_localizations:

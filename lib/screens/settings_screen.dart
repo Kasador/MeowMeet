@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import '../generated/l10n.dart';
 import '../main.dart';
 
@@ -131,6 +130,11 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
     super.initState();
     _currentLanguage = 'en'; // Set a default value for _currentLanguage
     _loadCurrentLanguage();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _loadAvailableLanguages();
   }
 
@@ -142,17 +146,22 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
   }
 
   void _loadAvailableLanguages() {
-    // Hardcoding some languages for demonstration
-    languageMap = {
-      'en': 'English',
-      'es': 'Spanish',
-      'fr': 'French',
-      'de': 'German',
-    };
-
-    setState(() {
-      _filteredLanguages = languageMap.entries.toList();
-    });
+    final localeNames = LocaleNames.of(context);
+    if (localeNames != null) {
+      setState(() {
+        languageMap = {
+          'en': localeNames.nameOf('en') ?? 'English',
+          'es': localeNames.nameOf('es') ?? 'Spanish',
+          'fr': localeNames.nameOf('fr') ?? 'French',
+          'de': localeNames.nameOf('de') ?? 'German',
+          'zh': localeNames.nameOf('zh') ?? 'Simplified Chinese',
+          'zh_Hant': localeNames.nameOf('zh_Hant') ?? 'Traditional Chinese'
+        };
+        _filteredLanguages = languageMap.entries.toList();
+      });
+    } else {
+      print('LocaleNames.of(context) is null');
+    }
   }
 
   void _filterLanguages(String query) {

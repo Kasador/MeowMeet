@@ -4,8 +4,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:country_codes_info/country_codes_info.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'generated/l10n.dart'; // Import the generated localization file
 import 'screens/signup_step1.dart';
 import 'screens/signup_step2.dart';
@@ -88,6 +89,7 @@ class _MainAppState extends State<MainApp> {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          LocaleNamesLocalizationsDelegate(), // Add this line
         ],
         supportedLocales: S.delegate.supportedLocales,
         localeResolutionCallback: (locale, supportedLocales) {
@@ -95,7 +97,8 @@ class _MainAppState extends State<MainApp> {
             return supportedLocales.first;
           }
           for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
               return supportedLocale;
             }
           }

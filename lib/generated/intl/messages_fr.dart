@@ -26,12 +26,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "ageRestriction": MessageLookupByLibrary.simpleMessage(
             "Vous devez avoir au moins 18 ans"),
         "appName": MessageLookupByLibrary.simpleMessage("MeowMeet"),
+        "areYouSureChangeLanguage": MessageLookupByLibrary.simpleMessage(
+            "Etes-vous sûr de vouloir changer la langue de l\'application ?"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
+        "changeLanguage":
+            MessageLookupByLibrary.simpleMessage("Changer de langue"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Changer le mot de passe"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "common": MessageLookupByLibrary.simpleMessage("Commun"),
         "completeProfile":
             MessageLookupByLibrary.simpleMessage("complète ton profil"),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirmer"),
         "confirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirmez le mot de passe"),
         "continueButton": MessageLookupByLibrary.simpleMessage("Continuer"),
@@ -47,12 +53,20 @@ class MessageLookup extends MessageLookupByLibrary {
             "Activer le thème personnalisé"),
         "enableLock":
             MessageLookupByLibrary.simpleMessage("Activer verrouillage"),
+        "errorMessage": MessageLookupByLibrary.simpleMessage(
+            "L\'image sélectionnée contient un contenu inapproprié et ne peut pas être téléchargée."),
+        "errorProcessingImage": MessageLookupByLibrary.simpleMessage(
+            "Erreur de traitement de l\'image en raison d\'un contenu inapproprié."),
+        "errorUploadingImage": MessageLookupByLibrary.simpleMessage(
+            "Erreur lors de l\'envoi de l\'image."),
         "feed": MessageLookupByLibrary.simpleMessage("Alimentation"),
         "female": MessageLookupByLibrary.simpleMessage("Femelle"),
         "firstName": MessageLookupByLibrary.simpleMessage("Prénom"),
         "followers": MessageLookupByLibrary.simpleMessage("Suiveurs"),
         "friends": MessageLookupByLibrary.simpleMessage("Amis"),
         "gender": MessageLookupByLibrary.simpleMessage("Genre"),
+        "imageUploadedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Image téléchargée avec succès !"),
         "invalidUsername":
             MessageLookupByLibrary.simpleMessage("Nom d\'utilisateur invalide"),
         "joinedIn": MessageLookupByLibrary.simpleMessage("S\'est joint"),
@@ -66,10 +80,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "male": MessageLookupByLibrary.simpleMessage("Mâle"),
         "map": MessageLookupByLibrary.simpleMessage("Carte"),
         "misc": MessageLookupByLibrary.simpleMessage("Divers"),
+        "moments": MessageLookupByLibrary.simpleMessage("Des moments"),
+        "momentsContent": MessageLookupByLibrary.simpleMessage(
+            "Le contenu de Moments va ici"),
         "name": MessageLookupByLibrary.simpleMessage("Nom"),
         "nationality": MessageLookupByLibrary.simpleMessage("Nationalité"),
         "nativeLanguage":
             MessageLookupByLibrary.simpleMessage("Langue maternelle"),
+        "offline": MessageLookupByLibrary.simpleMessage("Hors ligne"),
+        "online": MessageLookupByLibrary.simpleMessage("En ligne"),
         "openSourceLicenses":
             MessageLookupByLibrary.simpleMessage("Licences open source"),
         "or": MessageLookupByLibrary.simpleMessage("ou"),
@@ -84,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("Profil"),
         "saveProfile":
             MessageLookupByLibrary.simpleMessage("Enregistrer le profil"),
+        "searchLanguage":
+            MessageLookupByLibrary.simpleMessage("Langue de recherche"),
         "security": MessageLookupByLibrary.simpleMessage("Sécurité"),
         "setPassword":
             MessageLookupByLibrary.simpleMessage("Définir un mot de passe"),
