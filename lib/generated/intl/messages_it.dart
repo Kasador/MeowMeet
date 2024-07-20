@@ -97,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber":
             MessageLookupByLibrary.simpleMessage("Numero di telefono"),
         "profile": MessageLookupByLibrary.simpleMessage("Profilo"),
+        "randomChat": MessageLookupByLibrary.simpleMessage("Chat casuale"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Salva il profilo"),
         "searchLanguage": MessageLookupByLibrary.simpleMessage("Cerca lingua"),
         "security": MessageLookupByLibrary.simpleMessage("Sicurezza"),

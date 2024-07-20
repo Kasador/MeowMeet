@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import '../theme.dart'; // Correct import for the AppTheme class
+import '../theme.dart';
+import '../generated/l10n.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -73,11 +74,17 @@ class _MapScreenState extends State<MapScreen> {
     mapController?.setMapStyle(_mapStyle);
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
+    final localizations = S.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Map'),
+        backgroundColor: AppTheme.backgroundColor,
+        title: Text(
+          localizations.map, 
+          style: TextStyle(color: AppTheme.primaryColor),
+        ),
         automaticallyImplyLeading: false, // Remove the back arrow
       ),
       body: _currentPosition == null

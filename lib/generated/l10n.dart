@@ -50,15 +50,15 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `MeowMeet`
-  String get appName {
-    return Intl.message(
-      'MeowMeet',
-      name: 'appName',
-      desc: 'The name of the application',
-      args: [],
-    );
-  }
+  // /// `MeowMeet`
+  // String get appName {
+  //   return Intl.message(
+  //     'MeowMeet',
+  //     name: 'appName',
+  //     desc: 'The name of the application',
+  //     args: [],
+  //   );
+  // }
 
   /// `Connect, share, and discover moments with friends worldwide.`
   String get slogan {
@@ -176,6 +176,16 @@ class S {
       'Feed',
       name: 'feed',
       desc: 'Feed tab label',
+      args: [],
+    );
+  }
+
+  /// `Random Chat`
+  String get randomChat {
+    return Intl.message(
+      'Random Chat',
+      name: 'randomChat',
+      desc: 'Random Chat tab label',
       args: [],
     );
   }

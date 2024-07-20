@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             items: [
               ItemNavigationView(
-                childAfter: const Icon(Icons.home_rounded, color: AppTheme.primaryColor, size: 30),
-                childBefore: Icon(Icons.home_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+                childAfter: const Icon(Icons.dynamic_feed, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.dynamic_feed_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
               ),
               ItemNavigationView(
                 childAfter: const Icon(Icons.chat, color: AppTheme.primaryColor, size: 30),

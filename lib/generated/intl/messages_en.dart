@@ -97,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone number"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "randomChat": MessageLookupByLibrary.simpleMessage("Random Chat"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Save Profile"),
         "searchLanguage":
             MessageLookupByLibrary.simpleMessage("Search Language"),

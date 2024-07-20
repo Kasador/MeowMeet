@@ -37,6 +37,7 @@
   "openSourceLicenses": "Open source licenses",
   "firstName": "First Name",
   "lastName": "Last Name",
+  "randomChat": "Random Chat",
   "invalidUsername": "Invalid username",
   "usernameTaken": "Username is taken",
   "continueButton": "Continue",
@@ -113,6 +114,9 @@
   },
   "@map": {
     "description": "Map tab label"
+  },
+  "@randomChat": {
+    "description": "Random Chat tab label"
   },
   "@profile": {
     "description": "Profile tab label"

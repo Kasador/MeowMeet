@@ -51,14 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Image.asset('assets/images/logo.png'), // Ensure you have a logo asset
               const SizedBox(height: 20),
-              Text(
-                localizations.appName,
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.primaryColor,
-                ),
-              ),
+              // Text(
+              //   localizations.appName,
+              //   style: TextStyle(
+              //     fontSize: 48,
+              //     fontWeight: FontWeight.bold,
+              //     color: AppTheme.primaryColor,
+              //   ),
+              // ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),

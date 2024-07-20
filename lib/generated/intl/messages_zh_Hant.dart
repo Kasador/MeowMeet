@@ -84,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordMatch": MessageLookupByLibrary.simpleMessage("密碼不匹配"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("電話號碼"),
         "profile": MessageLookupByLibrary.simpleMessage("輪廓"),
+        "randomChat": MessageLookupByLibrary.simpleMessage("隨機聊天"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("儲存個人資訊"),
         "searchLanguage": MessageLookupByLibrary.simpleMessage("搜尋語言"),
         "security": MessageLookupByLibrary.simpleMessage("安全"),

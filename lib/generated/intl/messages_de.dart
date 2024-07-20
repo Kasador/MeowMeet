@@ -99,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Passwörter stimmen nicht überein"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Telefonnummer"),
         "profile": MessageLookupByLibrary.simpleMessage("Profil"),
+        "randomChat": MessageLookupByLibrary.simpleMessage("Zufälliger Chat"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Profil sichern"),
         "searchLanguage": MessageLookupByLibrary.simpleMessage("Suchsprache"),
         "security": MessageLookupByLibrary.simpleMessage("Sicherheit"),
