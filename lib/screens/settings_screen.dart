@@ -15,6 +15,7 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Text(localizations.settings),
       ),
       body: SettingsList(
@@ -213,6 +214,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Text(localizations.language),
       ),
       body: Column(

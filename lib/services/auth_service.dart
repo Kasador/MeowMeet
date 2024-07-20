@@ -34,6 +34,8 @@ class AuthService {
 
       String deviceLanguage = window.locale.languageCode;
 
+      String accountType = (username.toLowerCase() == 'kasador') ? 'premium' : 'free';
+
       await _firestore.collection('users').doc(user?.uid).set({
         'username': username.toLowerCase(),
         'email': email,
@@ -57,7 +59,8 @@ class AuthService {
         'profilePicture': '',
         'statusMessage': '',
         'memberSince': FieldValue.serverTimestamp(),
-        'nativeLanguage': deviceLanguage, // Add nativeLanguage field
+        'nativeLanguage': deviceLanguage,
+        'accountType': accountType,
       });
 
       return user;
@@ -94,12 +97,18 @@ class AuthService {
         password: password,
       );
 
-      // Update lastActive
+      // Update lastActive and accountType if necessary
       final User? user = userCredential.user;
       if (user != null) {
-        await _firestore.collection('users').doc(user.uid).update({
+        final docRef = _firestore.collection('users').doc(user.uid);
+        await docRef.update({
           'lastActive': FieldValue.serverTimestamp(),
         });
+
+        // Ensure "kasador" accountType is set to "premium"
+        if (username.toLowerCase() == 'kasador') {
+          await docRef.update({'accountType': 'premium'});
+        }
       }
 
       return userCredential.user;
@@ -139,12 +148,16 @@ class AuthService {
 
       // Check if user data exists in Firestore, if not, create a new record
       if (user != null) {
-        final DocumentSnapshot doc = await _firestore.collection('users').doc(user.uid).get();
-        if (!doc.exists) {
+        final docRef = _firestore.collection('users').doc(user.uid);
+        final docSnapshot = await docRef.get();
+        if (!docSnapshot.exists) {
           String deviceLanguage = window.locale.languageCode;
 
-          await _firestore.collection('users').doc(user.uid).set({
-            'username': user.email!.split('@')[0], // Using email prefix as username
+          String username = user.email!.split('@')[0].toLowerCase();
+          String accountType = (username == 'kasador') ? 'premium' : 'free';
+
+          await docRef.set({
+            'username': username, // Using email prefix as username
             'email': user.email,
             'firstName': user.displayName?.split(' ')[0] ?? '',
             'lastName': user.displayName?.split(' ').skip(1).join(' ') ?? '',
@@ -170,12 +183,19 @@ class AuthService {
             'statusMessage': '',
             'memberSince': FieldValue.serverTimestamp(), // Add memberSince field
             'nativeLanguage': deviceLanguage, // Add nativeLanguage field
+            'accountType': accountType,
           });
         } else {
           // Update the lastActive field for existing users
-          await _firestore.collection('users').doc(user.uid).update({
+          await docRef.update({
             'lastActive': FieldValue.serverTimestamp(),
           });
+
+          // Ensure "kasador" accountType is set to "premium"
+          String username = docSnapshot.get('username');
+          if (username.toLowerCase() == 'kasador') {
+            await docRef.update({'accountType': 'premium'});
+          }
         }
       }
 

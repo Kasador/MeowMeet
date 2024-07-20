@@ -7,6 +7,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: const Text('Chat'),
         automaticallyImplyLeading: false, // Remove the back arrow
       ),

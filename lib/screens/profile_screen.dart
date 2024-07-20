@@ -219,16 +219,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: AppTheme.backgroundColor,
+                surfaceTintColor: Colors.transparent,
+                backgroundColor: AppTheme.primaryColor,
                 title: Text(
                   '@${userData.username}',
-                  style: TextStyle(color: AppTheme.primaryColor),
+                  style: TextStyle(color: AppTheme.backgroundColor),
                 ),
                 automaticallyImplyLeading: false,
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.settings),
-                    color: AppTheme.secondaryColor.withAlpha(100),
+                    color: AppTheme.backgroundColor,
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -238,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              body: SingleChildScrollView(
+              body: SingleChildScrollView( 
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -328,7 +329,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const SizedBox(width: 5),
                                   if (userData.accountType == 'premium')
                                     const Icon(
-                                      Icons.star,
+                                      Icons.workspace_premium,
                                       color: Colors.amber,
                                     ),
                                 ],
@@ -452,6 +453,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 const SizedBox(height: 10),
                                 Text(
                                   '${localizations.joinedIn}: $memberSinceFormatted',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                Text(
+                                  'Account Type: ${userData.accountType}',
                                   style: const TextStyle(fontSize: 20),
                                 ),
                                 if (_message.isNotEmpty)

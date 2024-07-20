@@ -141,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       child: Divider(
                         thickness: 1,
+                        indent: 30,
                         color: AppTheme.textColor,
                       ),
                     ),
@@ -151,6 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       child: Divider(
                         thickness: 1,
+                        endIndent: 30,
                         color: AppTheme.textColor,
                       ),
                     ),

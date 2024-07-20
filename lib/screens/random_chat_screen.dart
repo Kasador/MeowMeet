@@ -10,6 +10,7 @@ class RandomChatScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Text(localizations.randomChat),
         automaticallyImplyLeading: false, // Remove the back arrow
       ),

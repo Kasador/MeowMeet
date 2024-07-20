@@ -80,10 +80,11 @@ class _MapScreenState extends State<MapScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.backgroundColor,
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: AppTheme.primaryColor,
         title: Text(
           localizations.map, 
-          style: TextStyle(color: AppTheme.primaryColor),
+          style: TextStyle(color: AppTheme.backgroundColor),
         ),
         automaticallyImplyLeading: false, // Remove the back arrow
       ),

@@ -7,6 +7,7 @@ class FeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: const Text('Feed'),
         automaticallyImplyLeading: false, // Remove the back arrow
       ),
