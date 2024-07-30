@@ -73,15 +73,43 @@ class _MainAppState extends State<MainApp> {
       child: MaterialApp(
         theme: AppTheme.lightTheme,
         initialRoute: '/',
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/signup_step1': (context) => const SignUpStep1(),
-          '/signup_step2': (context) => const SignUpStep2(),
-          '/signup_step3': (context) => const SignUpStep3(),
-          '/home': (context) => const HomeScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/settings': (context) => const SettingsScreen(),
-          '/profile': (context) => const ProfileScreen(), // Add the route for the profile screen
+        onGenerateRoute: (RouteSettings settings) {
+          WidgetBuilder builder;
+          switch (settings.name) {
+            case '/':
+              builder = (BuildContext context) => const SplashScreen();
+              break;
+            case '/signup_step1':
+              builder = (BuildContext context) => const SignUpStep1();
+              break;
+            case '/signup_step2':
+              builder = (BuildContext context) => const SignUpStep2();
+              break;
+            case '/signup_step3':
+              builder = (BuildContext context) => const SignUpStep3();
+              break;
+            case '/home':
+              builder = (BuildContext context) => const HomeScreen();
+              break;
+            case '/login':
+              builder = (BuildContext context) => const LoginScreen();
+              break;
+            case '/settings':
+              builder = (BuildContext context) => const SettingsScreen();
+              break;
+            case '/profile':
+              builder = (BuildContext context) => const ProfileScreen();
+              break;
+            default:
+              throw Exception('Invalid route: ${settings.name}');
+          }
+          return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => builder(context),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return child;
+            },
+            settings: settings,
+          );
         },
         locale: _locale,
         localizationsDelegates: const [
@@ -89,7 +117,7 @@ class _MainAppState extends State<MainApp> {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
-          LocaleNamesLocalizationsDelegate(), // Add this line
+          LocaleNamesLocalizationsDelegate(),
         ],
         supportedLocales: S.delegate.supportedLocales,
         localeResolutionCallback: (locale, supportedLocales) {
