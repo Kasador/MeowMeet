@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,6 +17,7 @@ class _MapScreenState extends State<MapScreen> {
   GoogleMapController? mapController;
   Position? _currentPosition;
   String _mapStyle = '';
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -74,19 +76,20 @@ class _MapScreenState extends State<MapScreen> {
     mapController?.setMapStyle(_mapStyle);
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final localizations = S.of(context);
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         backgroundColor: AppTheme.primaryColor,
         title: Text(
-          localizations.map, 
+          localizations.map,
           style: TextStyle(color: AppTheme.backgroundColor),
         ),
-        automaticallyImplyLeading: false, // Remove the back arrow
+        automaticallyImplyLeading: false,
       ),
       body: _currentPosition == null
           ? const Center(child: CircularProgressIndicator())
@@ -94,7 +97,7 @@ class _MapScreenState extends State<MapScreen> {
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
                 target: LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-                zoom: 5.0, // Zoom level set to 5.0 for country view
+                zoom: 5.0,
               ),
             ),
     );

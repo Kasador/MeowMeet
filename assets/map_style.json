@@ -33,10 +33,27 @@
   },
   {
     "featureType": "administrative.country",
-    "elementType": "labels",
+    "elementType": "geometry.stroke",
     "stylers": [
       {
-        "visibility": "on"
+        "color": "#EB6600" 
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.country",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#EB6600"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.province",
+    "stylers": [
+      {
+        "visibility": "off"
       }
     ]
   },

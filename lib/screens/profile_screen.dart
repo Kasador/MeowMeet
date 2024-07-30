@@ -279,6 +279,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                               ),
+                              if (userData.accountType == 'premium')
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  child: CircleAvatar(
+                                    radius: 13.5,
+                                    backgroundColor: AppTheme.backgroundColor,
+                                    child: Icon(
+                                      Icons.workspace_premium,
+                                      color: Colors.amber,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                           const SizedBox(width: 20),
@@ -326,12 +340,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     '${userData.age}',
                                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                   ),
-                                  const SizedBox(width: 5),
-                                  if (userData.accountType == 'premium')
-                                    const Icon(
-                                      Icons.workspace_premium,
-                                      color: Colors.amber,
-                                    ),
                                 ],
                               ),
                             ],
