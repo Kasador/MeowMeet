@@ -20,11 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    FeedScreen(),
+    ProfileScreen(),
     ChatScreen(),
     RandomChatScreen(),
     MapScreen(),
-    ProfileScreen(),
+    FeedScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             items: [
               ItemNavigationView(
-                childAfter: const Icon(Icons.dynamic_feed, color: AppTheme.primaryColor, size: 30),
-                childBefore: Icon(Icons.dynamic_feed_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+                childAfter: const Icon(Icons.person, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.person_outline, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
               ),
               ItemNavigationView(
                 childAfter: const Icon(Icons.chat, color: AppTheme.primaryColor, size: 30),
@@ -83,8 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 childBefore: Icon(Icons.map_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
               ),
               ItemNavigationView(
-                childAfter: const Icon(Icons.person, color: AppTheme.primaryColor, size: 30),
-                childBefore: Icon(Icons.person_outline, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
+                childAfter: const Icon(Icons.dynamic_feed, color: AppTheme.primaryColor, size: 30),
+                childBefore: Icon(Icons.dynamic_feed_outlined, color: AppTheme.secondaryColor.withAlpha(60), size: 30),
               ),
             ],
           ),

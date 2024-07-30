@@ -64,3 +64,4 @@ flutter:
     - assets/images/google_logo.png
     - assets/service_account.json
     - assets/.env
+    - assets/loading_gifs/cat-eating.gif
