@@ -1,25 +1,27 @@
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:intl/intl.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../services/auth_service.dart';
-import '../models/user_model.dart';
-import '../theme.dart';
-import 'settings_screen.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:flag/flag.dart';
 import '../generated/l10n.dart';
+import '../models/user_model.dart';
+import '../services/auth_service.dart';
+import '../theme.dart';
+import 'create_moment_screen.dart'; // Import CreateMomentScreen
+import 'moments_screen.dart'; // Import MomentsScreen
+import 'settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -217,6 +219,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SnackBar(content: Text(message)),
       );
     }
+  }
+
+  void _navigateToCreateMomentScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CreateMomentScreen()),
+    );
   }
 
   @override
@@ -496,13 +505,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                               ],
                             ),
-                            Center(child: Text(localizations.momentsContent)),
+                            MomentsScreen(userId: userData.uid), // Include MomentsScreen
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: _navigateToCreateMomentScreen,
+                child: Icon(Icons.add),
+                backgroundColor: AppTheme.primaryColor,
               ),
             );
           }

@@ -7,8 +7,70 @@ import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import '../generated/l10n.dart';
 import '../main.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isOnline = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserStatus();
+  }
+
+  Future<void> _loadUserStatus() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
+      final DataSnapshot snapshot = await userRef.get();
+      if (snapshot.exists) {
+        setState(() {
+          _isOnline = snapshot.value == 'online';
+        });
+      }
+    }
+  }
+
+  Future<void> _updateUserStatus(bool isOnline) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+      final DateTime now = DateTime.now();
+
+      await userRef.update({
+        'lastActive': now.toIso8601String(),
+        'status': isOnline ? 'online' : 'offline',
+      });
+
+      setState(() {
+        _isOnline = isOnline;
+      });
+    }
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+      final DateTime now = DateTime.now();
+
+      // Update lastActive field with the current time and set status to offline
+      await userRef.update({
+        'lastActive': now.toIso8601String(),
+        'status': 'offline',
+      });
+    }
+
+    await FirebaseAuth.instance.signOut();
+    if (!context.mounted) return;
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +113,14 @@ class SettingsScreen extends StatelessWidget {
               SettingsTile.navigation(
                 leading: const Icon(Icons.email),
                 title: Text(localizations.email),
+              ),
+              SettingsTile.switchTile(
+                leading: const Icon(Icons.online_prediction),
+                title: Text(localizations.onlineStatus),
+                initialValue: _isOnline,
+                onToggle: (value) {
+                  _updateUserStatus(value);
+                },
               ),
             ],
           ),
@@ -105,21 +175,6 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future<void> _logout(BuildContext context) async {
-    final User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final DatabaseReference statusRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
-
-      // Set status to offline in Realtime Database
-      await statusRef.set('offline');
-    }
-
-    await FirebaseAuth.instance.signOut();
-    if (!context.mounted) return;
-    Navigator.of(context).pushReplacementNamed('/login');
   }
 }
 

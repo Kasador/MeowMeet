@@ -350,6 +350,16 @@ class S {
     );
   }
 
+  /// `Online Status`
+  String get onlineStatus {
+    return Intl.message(
+      'Online status',
+      name: 'onlineStatus',
+      desc: 'online status setting',
+      args: [],
+    );
+  }
+
   /// `Security`
   String get security {
     return Intl.message(

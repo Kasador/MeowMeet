@@ -28,6 +28,7 @@
   "account": "Account",
   "phoneNumber": "Phone number",
   "email": "Email",
+  "onlineStatus": "Online Status",
   "security": "Security",
   "changePassword": "Change password",
   "useFingerprint": "Use fingerprint",

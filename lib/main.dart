@@ -7,6 +7,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'generated/l10n.dart'; // Import the generated localization file
 import 'screens/signup_step1.dart';
 import 'screens/signup_step2.dart';
@@ -24,6 +26,12 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await CountryCodes.init(); // Initialize the country codes
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
+  // Disable rotation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   // Load environment variables
   await dotenv.load(fileName: "assets/.env");
@@ -49,13 +57,42 @@ class MainApp extends StatefulWidget {
   }
 }
 
-class _MainAppState extends State<MainApp> {
+class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   Locale? _locale;
 
   @override
   void initState() {
     super.initState();
     _locale = widget.locale;
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+      await _updateUserStatus();
+    }
+  }
+
+  Future<void> _updateUserStatus() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+      final DateTime now = DateTime.now();
+
+      // Update lastActive field with the current time and set status to offline
+      await userRef.update({
+        'lastActive': now.toIso8601String(),
+        'status': 'offline',
+      });
+    }
   }
 
   void setLocale(Locale locale) {
