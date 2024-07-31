@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 30),
                         Row(
                           children: [
                             Expanded(
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 30),
                         ElevatedButton.icon(
                           icon: Image.asset(
                             'assets/images/google_logo.png',
