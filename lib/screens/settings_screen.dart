@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import '../generated/l10n.dart';
 import '../main.dart';
@@ -107,6 +108,15 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Future<void> _logout(BuildContext context) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final DatabaseReference statusRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
+
+      // Set status to offline in Realtime Database
+      await statusRef.set('offline');
+    }
+
     await FirebaseAuth.instance.signOut();
     if (!context.mounted) return;
     Navigator.of(context).pushReplacementNamed('/login');

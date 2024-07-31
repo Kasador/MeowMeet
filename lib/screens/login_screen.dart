@@ -8,6 +8,7 @@ import 'profile_completion_screen.dart';
 import '../theme.dart';
 import '../widgets/custom_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import '../models/user_model.dart';
 import '../generated/l10n.dart';
 
@@ -24,6 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+
+  Future<void> _setOnlineStatus(User user, bool isOnline) async {
+    final statusRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
+    await statusRef.set(isOnline ? 'online' : 'offline');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   passwordController.text,
                                 );
                                 if (user != null) {
+                                  await _setOnlineStatus(user, true);
+
                                   DocumentSnapshot doc = await FirebaseFirestore.instance
                                       .collection('users')
                                       .doc(user.uid)
@@ -209,6 +217,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             try {
                               User? user = await auth.signInWithGoogle();
                               if (user != null) {
+                                await _setOnlineStatus(user, true);
+
                                 DocumentSnapshot doc = await FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(user.uid)

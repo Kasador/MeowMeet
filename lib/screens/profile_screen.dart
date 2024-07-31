@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'dart:io';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:country_picker/country_picker.dart';
@@ -32,8 +34,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _isUploading = false;
   bool _isEditingStatus = false;
   String _message = '';
+  bool _isOnline = false;
 
   final String apiKey = dotenv.env['GOOGLE_API_KEY'] ?? '';
+
+  DatabaseReference? _statusRef;
+  StreamSubscription<DatabaseEvent>? _statusSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _statusRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
+      _statusSubscription = _statusRef?.onValue.listen((event) {
+        final status = event.snapshot.value as String?;
+        setState(() {
+          _isOnline = status == 'online';
+        });
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _statusSubscription?.cancel();
+    statusController.dispose();
+    super.dispose();
+  }
 
   Future<void> _pickImage() async {
     try {
@@ -239,7 +267,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              body: SingleChildScrollView( 
+              body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -306,10 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     width: 17,
                                     height: 17,
                                     decoration: BoxDecoration(
-                                      color: userData.lastActive != null &&
-                                              DateTime.now()
-                                                  .difference(userData.lastActive!.toDate())
-                                                  .inMinutes < 5
+                                      color: _isOnline
                                           ? Colors.green
                                           : Colors.grey,
                                       shape: BoxShape.circle,
@@ -317,10 +342,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
-                                    userData.lastActive != null &&
-                                            DateTime.now()
-                                                .difference(userData.lastActive!.toDate())
-                                                .inMinutes < 5
+                                    _isOnline
                                         ? localizations.online
                                         : localizations.offline,
                                     style: const TextStyle(fontSize: 12),

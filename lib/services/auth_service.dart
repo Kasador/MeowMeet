@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meow_meet/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,7 @@ import 'dart:convert';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     clientId: '439712658549-rnukeu8t0sibtpora398llkvffvgbrd1.apps.googleusercontent.com',
   );
@@ -63,6 +65,10 @@ class AuthService {
         'accountType': accountType,
       });
 
+      // Set online status in Realtime Database
+      _database.ref('users/${user?.uid}/status').set('online');
+      _database.ref('users/${user?.uid}/lastActive').onDisconnect().set(DateTime.now().toIso8601String());
+
       return user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -109,6 +115,10 @@ class AuthService {
         if (username.toLowerCase() == 'kasador') {
           await docRef.update({'accountType': 'premium'});
         }
+
+        // Set online status in Realtime Database
+        _database.ref('users/${user.uid}/status').set('online');
+        _database.ref('users/${user.uid}/lastActive').onDisconnect().set(DateTime.now().toIso8601String());
       }
 
       return userCredential.user;
@@ -185,6 +195,10 @@ class AuthService {
             'nativeLanguage': deviceLanguage, // Add nativeLanguage field
             'accountType': accountType,
           });
+
+          // Set online status in Realtime Database
+          _database.ref('users/${user.uid}/status').set('online');
+          _database.ref('users/${user.uid}/lastActive').onDisconnect().set(DateTime.now().toIso8601String());
         } else {
           // Update the lastActive field for existing users
           await docRef.update({
@@ -196,6 +210,10 @@ class AuthService {
           if (username.toLowerCase() == 'kasador') {
             await docRef.update({'accountType': 'premium'});
           }
+
+          // Set online status in Realtime Database
+          _database.ref('users/${user.uid}/status').set('online');
+          _database.ref('users/${user.uid}/lastActive').onDisconnect().set(DateTime.now().toIso8601String());
         }
       }
 
@@ -222,6 +240,10 @@ class AuthService {
         await _firestore.collection('users').doc(user.uid).update({
           'lastActive': FieldValue.serverTimestamp(),
         });
+
+        // Set offline status in Realtime Database
+        _database.ref('users/${user.uid}/status').set('offline');
+        _database.ref('users/${user.uid}/lastActive').set(DateTime.now().toIso8601String());
       }
       await _googleSignIn.signOut();
       await _auth.signOut();
