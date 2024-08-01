@@ -527,7 +527,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildStatCard(String title, String count, IconData icon) {
     return Container(
-      height: 100,
+      height: 80,
       width: 130,
       decoration: BoxDecoration(
         color: AppTheme.primaryColor.withOpacity(0.1),
@@ -537,14 +537,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: AppTheme.primaryColor, size: 30),
-          const SizedBox(height: 5),
-          Text(
-            count,
-            style: TextStyle(color: AppTheme.primaryColor, fontSize: 20),
-          ),
-          Text(
-            title,
-            style: TextStyle(color: AppTheme.primaryColor, fontSize: 16),
+          const SizedBox(height: 0), // Add some spacing between the icon and the row
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                count,
+                style: TextStyle(color: AppTheme.primaryColor, fontSize: 20),
+              ),
+              const SizedBox(width: 5), // Add horizontal spacing between the texts
+              Text(
+                title,
+                style: TextStyle(color: AppTheme.primaryColor, fontSize: 16),
+              ),
+            ],
           ),
         ],
       ),
