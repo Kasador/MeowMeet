@@ -75,23 +75,24 @@ class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
-      await _updateUserStatus();
-    }
-  }
-
-  Future<void> _updateUserStatus() async {
     final User? user = FirebaseAuth.instance.currentUser;
+    final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user?.uid}');
 
     if (user != null) {
-      final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
       final DateTime now = DateTime.now();
 
-      // Update lastActive field with the current time and set status to offline
-      await userRef.update({
-        'lastActive': now.toIso8601String(),
-        'status': 'offline',
-      });
+      if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+        // Update lastActive field with the current time and set status to offline
+        await userRef.update({
+          'lastActive': now.toIso8601String(),
+          'status': 'offline',
+        });
+      } else if (state == AppLifecycleState.resumed) {
+        // Set status to online when the app is resumed
+        await userRef.update({
+          'status': 'online',
+        });
+      }
     }
   }
 

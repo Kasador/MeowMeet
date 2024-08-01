@@ -16,8 +16,8 @@ class _CreateMomentScreenState extends State<CreateMomentScreen> {
   final ImagePicker _picker = ImagePicker();
   bool _isUploading = false;
 
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -90,7 +90,11 @@ class _CreateMomentScreenState extends State<CreateMomentScreen> {
               children: [
                 IconButton(
                   icon: Icon(Icons.photo),
-                  onPressed: _pickImage,
+                  onPressed: () => _pickImage(ImageSource.gallery),
+                ),
+                IconButton(
+                  icon: Icon(Icons.camera),
+                  onPressed: () => _pickImage(ImageSource.camera),
                 ),
                 if (_image != null) Image.file(_image!, height: 100),
               ],
