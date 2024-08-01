@@ -39,9 +39,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _updateUserStatus(bool isOnline) async {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      final DatabaseReference statusRef = FirebaseDatabase.instance.ref('status/${user.uid}');
       final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
       final DateTime now = DateTime.now();
 
+      // Update both status and users nodes
+      await statusRef.update({
+        'last_changed': ServerValue.timestamp,
+        'state': isOnline ? 'online' : 'offline',
+      });
       await userRef.update({
         'lastActive': now.toIso8601String(),
         'status': isOnline ? 'online' : 'offline',
@@ -57,10 +63,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
+      final DatabaseReference statusRef = FirebaseDatabase.instance.ref('status/${user.uid}');
       final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
       final DateTime now = DateTime.now();
 
-      // Update lastActive field with the current time and set status to offline
+      // Update both status and users nodes
+      await statusRef.update({
+        'last_changed': ServerValue.timestamp,
+        'state': 'offline',
+      });
       await userRef.update({
         'lastActive': now.toIso8601String(),
         'status': 'offline',

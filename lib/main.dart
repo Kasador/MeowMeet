@@ -59,12 +59,18 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   Locale? _locale;
+  bool _isPresenceSetup = false;
 
   @override
   void initState() {
     super.initState();
     _locale = widget.locale;
     WidgetsBinding.instance.addObserver(this);
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        _setupPresence(user);
+      }
+    });
   }
 
   @override
@@ -76,19 +82,26 @@ class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     final User? user = FirebaseAuth.instance.currentUser;
-    final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user?.uid}');
-
     if (user != null) {
+      final DatabaseReference statusRef = FirebaseDatabase.instance.ref('status/${user.uid}');
+      final DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
       final DateTime now = DateTime.now();
 
       if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
         // Update lastActive field with the current time and set status to offline
+        await statusRef.update({
+          'last_changed': ServerValue.timestamp,
+          'state': 'offline',
+        });
         await userRef.update({
           'lastActive': now.toIso8601String(),
           'status': 'offline',
         });
       } else if (state == AppLifecycleState.resumed) {
         // Set status to online when the app is resumed
+        await statusRef.update({
+          'state': 'online',
+        });
         await userRef.update({
           'status': 'online',
         });
@@ -99,6 +112,42 @@ class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
+    });
+  }
+
+  void _setupPresence(User user) async {
+    if (_isPresenceSetup) return;
+    _isPresenceSetup = true;
+
+    DatabaseReference statusRef = FirebaseDatabase.instance.ref('status/${user.uid}');
+    DatabaseReference userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+
+    // Define user status
+    Map<String, dynamic> isOnline = {
+      "state": "online",
+      "last_changed": ServerValue.timestamp,
+    };
+
+    Map<String, dynamic> isOffline = {
+      "state": "offline",
+      "last_changed": ServerValue.timestamp,
+    };
+
+    // Set the user's status to online when they are connected
+    DatabaseReference connectedRef = FirebaseDatabase.instance.ref('.info/connected');
+    connectedRef.onValue.listen((event) {
+      if (event.snapshot.value == true) {
+        statusRef.set(isOnline);
+        userRef.update({
+          'status': 'online',
+          'lastActive': DateTime.now().toIso8601String(),
+        });
+        statusRef.onDisconnect().set(isOffline);
+        userRef.onDisconnect().update({
+          'status': 'offline',
+          'lastActive': DateTime.now().toIso8601String(),
+        });
+      }
     });
   }
 

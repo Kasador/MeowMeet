@@ -27,8 +27,18 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _setOnlineStatus(User user, bool isOnline) async {
-    final statusRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
-    await statusRef.set(isOnline ? 'online' : 'offline');
+    final statusRef = FirebaseDatabase.instance.ref('status/${user.uid}');
+    final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+    final DateTime now = DateTime.now();
+
+    await statusRef.update({
+      'last_changed': ServerValue.timestamp,
+      'state': isOnline ? 'online' : 'offline',
+    });
+    await userRef.update({
+      'lastActive': now.toIso8601String(),
+      'status': isOnline ? 'online' : 'offline',
+    });
   }
 
   @override
@@ -54,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         body: Center(
           child: _isLoading
-              ? Image.asset('assets/loading_gifs/cat-eating.gif') // Show loading GIF
+              ? Image.asset('assets/loading_gifs/cat_eating_main.gif') // Show loading GIF
               : SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
                   child: Form(
