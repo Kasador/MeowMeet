@@ -23,6 +23,11 @@ class UserModel {
   String learningLanguage; // Only one learning language
   String accountType;
   int age;
+  List<String> followers;
+  List<String> following;
+  List<String> languagePreferences;
+  bool isProfilePublic;
+  String allowMessagesFrom;
 
   UserModel({
     required this.uid,
@@ -46,6 +51,11 @@ class UserModel {
     required this.learningLanguage,
     required this.accountType,
     required this.age,
+    required this.followers,
+    required this.following,
+    required this.languagePreferences,
+    required this.isProfilePublic,
+    required this.allowMessagesFrom,
   });
 
   factory UserModel.fromDocumentSnapshot(DocumentSnapshot doc) {
@@ -84,6 +94,11 @@ class UserModel {
       age: data['dateOfBirth'] != null && data['dateOfBirth'].isNotEmpty
           ? _calculateAge(data['dateOfBirth'])
           : 0, // Default age to 0 if dateOfBirth is not available
+      followers: List<String>.from(data['followers'] ?? []),
+      following: List<String>.from(data['following'] ?? []),
+      languagePreferences: List<String>.from(data['languagePreferences'] ?? []),
+      isProfilePublic: data['isProfilePublic'] ?? true,
+      allowMessagesFrom: data['allowMessagesFrom'] ?? '',
     );
   }
 
@@ -115,6 +130,11 @@ class UserModel {
       'learningLanguage': learningLanguage,
       'accountType': accountType,
       'age': age,
+      'followers': followers,
+      'following': following,
+      'languagePreferences': languagePreferences,
+      'isProfilePublic': isProfilePublic,
+      'allowMessagesFrom': allowMessagesFrom,
     };
   }
 

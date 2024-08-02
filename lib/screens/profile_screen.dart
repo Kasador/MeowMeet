@@ -251,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             String memberSinceFormatted = '';
             if (userData.memberSince != null) {
               final DateTime memberSinceDate = userData.memberSince!.toDate();
-              memberSinceFormatted = DateFormat('yyyy').format(memberSinceDate);
+              memberSinceFormatted = DateFormat('MMMM yyyy').format(memberSinceDate);
             }
 
             return Scaffold(
@@ -283,6 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Stack(
                             children: [
@@ -332,34 +333,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                             ],
                           ),
-                          const SizedBox(width: 20),
+                          const SizedBox(width: 10),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 8),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: 17,
-                                    height: 17,
+                                    width: 12,
+                                    height: 12,
                                     decoration: BoxDecoration(
-                                      color: _isOnline
-                                          ? Colors.green
-                                          : Colors.grey,
+                                      color: _isOnline ? Colors.green : Colors.grey,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
-                                    _isOnline
-                                        ? localizations.online
-                                        : localizations.offline,
-                                    style: const TextStyle(fontSize: 12),
+                                    _isOnline ? localizations.online : localizations.offline,
+                                    style: const TextStyle(fontSize: 14),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 5),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   if (userData.gender == 'Male')
                                     Icon(Icons.male, color: Colors.blue)
@@ -376,8 +373,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           const SizedBox(width: 10),
-                          if (_isUploading)
-                            const CircularProgressIndicator(),
+                          Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Icon(Icons.person, size: 28, color: Colors.grey),
+                                  Text(
+                                    '${userData.followers.length}',
+                                    style: const TextStyle(fontSize: 13.5, color: Colors.grey),
+                                  ),
+                                  const Text(
+                                    'Followers',
+                                    style: TextStyle(fontSize: 13.5, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              const SizedBox(width: 5),
+                              const SizedBox(
+                                height: 32,
+                                child: VerticalDivider(
+                                  color: Colors.grey,
+                                  thickness: 1,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              const SizedBox(height: 20),
+                              Column(
+                                children: [
+                                  Icon(Icons.person_add, size: 28, color: Colors.grey),
+                                  Text(
+                                    '${userData.following.length}',
+                                    style: const TextStyle(fontSize: 13.5, color: Colors.grey),
+                                  ),
+                                  const Text(
+                                    'Following',
+                                    style: TextStyle(fontSize: 13.5, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          if (_isUploading) const CircularProgressIndicator(),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${userData.firstName} ${userData.lastName}',
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            '@${userData.username} • Joined $memberSinceFormatted',
+                            style: const TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -402,13 +454,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     )
                                   : Text(
-                                      userData.statusMessage.isNotEmpty ? userData.statusMessage : localizations.statusMessageHint,
+                                      userData.statusMessage.isNotEmpty
+                                          ? userData.statusMessage
+                                          : localizations.statusMessageHint,
                                       style: const TextStyle(fontSize: 16, color: Colors.black54),
                                     ),
                             ),
                           ),
                           IconButton(
-                            icon: Icon(_isEditingStatus ? Icons.check : Icons.edit, color: AppTheme.primaryColor),
+                            icon: Icon(_isEditingStatus ? Icons.check : Icons.edit,
+                                color: _isEditingStatus ? Colors.green : AppTheme.primaryColor),
                             onPressed: () {
                               setState(() {
                                 if (_isEditingStatus) {
@@ -418,14 +473,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               });
                             },
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildStatCard(localizations.followers, userData.numberOfFollowers.toString(), Icons.people),
-                          _buildStatCard(localizations.friends, userData.friends.length.toString(), Icons.person_add),
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -521,38 +568,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           }
         },
-      ),
-    );
-  }
-
-  Widget _buildStatCard(String title, String count, IconData icon) {
-    return Container(
-      height: 80,
-      width: 130,
-      decoration: BoxDecoration(
-        color: AppTheme.primaryColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: AppTheme.primaryColor, size: 30),
-          const SizedBox(height: 0), // Add some spacing between the icon and the row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                count,
-                style: TextStyle(color: AppTheme.primaryColor, fontSize: 20),
-              ),
-              const SizedBox(width: 5), // Add horizontal spacing between the texts
-              Text(
-                title,
-                style: TextStyle(color: AppTheme.primaryColor, fontSize: 16),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
