@@ -9,19 +9,22 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flag/flag.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image_cropper/image_cropper.dart';
 import '../generated/l10n.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import '../theme.dart';
-import 'create_moment_screen.dart'; // Import CreateMomentScreen
-import 'moments_screen.dart'; // Import MomentsScreen
+import 'create_moment_screen.dart';
+import 'moments_screen.dart';
 import 'settings_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -37,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _isEditingStatus = false;
   String _message = '';
   bool _isOnline = false;
+  String _lastActive = '';
 
   final String apiKey = dotenv.env['GOOGLE_API_KEY'] ?? '';
 
@@ -50,10 +54,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (user != null) {
       _statusRef = FirebaseDatabase.instance.ref('users/${user.uid}/status');
       _statusSubscription = _statusRef?.onValue.listen((event) {
-        final status = event.snapshot.value as String?;
-        setState(() {
-          _isOnline = status == 'online';
-        });
+        final value = event.snapshot.value;
+        print('Status data type: ${value.runtimeType}');
+        if (value is Map) {
+          final status = value;
+          setState(() {
+            _isOnline = status?['status'] == 'online';
+            _lastActive = status?['lastActive'] ?? '';
+          });
+        } else if (value is String) {
+          setState(() {
+            _isOnline = value == 'online';
+            _lastActive = '';
+          });
+        } else {
+          print('Unexpected data type: ${value.runtimeType}');
+        }
       });
     }
   }
@@ -187,9 +203,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _uploadImage(File image) async {
     try {
+      final compressedImage = await FlutterImageCompress.compressWithFile(
+        image.absolute.path,
+        quality: 50,
+        format: CompressFormat.jpeg,
+      );
+
+      final tempDir = await getTemporaryDirectory();
+      final tempFilePath = '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final tempFile = File(tempFilePath)..writeAsBytesSync(compressedImage!);
+
       final User? user = FirebaseAuth.instance.currentUser;
       final storageRef = FirebaseStorage.instance.ref().child('profile_pictures/${user?.uid}.jpg');
-      final uploadTask = storageRef.putFile(image);
+      final uploadTask = storageRef.putFile(tempFile);
 
       final TaskSnapshot downloadUrl = await uploadTask;
       final String url = await downloadUrl.ref.getDownloadURL();
@@ -280,10 +306,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start, // y axis 
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start, // x axis 
                         children: [
                           Stack(
                             children: [
@@ -333,58 +359,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                             ],
                           ),
-                          const SizedBox(width: 10),
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: 12,
-                                    height: 12,
-                                    decoration: BoxDecoration(
-                                      color: _isOnline ? Colors.green : Colors.grey,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    _isOnline ? localizations.online : localizations.offline,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (userData.gender == 'Male')
-                                    Icon(Icons.male, color: Colors.blue)
-                                  else if (userData.gender == 'Female')
-                                    Icon(Icons.female, color: Colors.pinkAccent)
-                                  else if (userData.gender == 'Other')
-                                    Icon(Icons.transgender, color: Colors.purple),
-                                  Text(
-                                    '${userData.age}',
-                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 50),
                           Row(
                             children: [
                               Column(
                                 children: [
-                                  Icon(Icons.person, size: 28, color: Colors.grey),
+                                  Icon(Icons.person, size: 32, color: Colors.grey),
                                   Text(
                                     '${userData.followers.length}',
-                                    style: const TextStyle(fontSize: 13.5, color: Colors.grey),
+                                    style: const TextStyle(fontSize: 15, color: Colors.grey),
                                   ),
                                   const Text(
                                     'Followers',
-                                    style: TextStyle(fontSize: 13.5, color: Colors.grey),
+                                    style: TextStyle(fontSize: 15, color: Colors.grey),
                                   ),
                                 ],
                               ),
@@ -401,14 +388,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const SizedBox(height: 20),
                               Column(
                                 children: [
-                                  Icon(Icons.person_add, size: 28, color: Colors.grey),
+                                  Icon(Icons.person_add, size: 32, color: Colors.grey),
                                   Text(
                                     '${userData.following.length}',
-                                    style: const TextStyle(fontSize: 13.5, color: Colors.grey),
+                                    style: const TextStyle(fontSize: 15, color: Colors.grey),
                                   ),
                                   const Text(
                                     'Following',
-                                    style: TextStyle(fontSize: 13.5, color: Colors.grey),
+                                    style: TextStyle(fontSize: 15, color: Colors.grey),
                                   ),
                                 ],
                               ),
@@ -421,9 +408,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '${userData.firstName} ${userData.lastName}',
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          Row(
+                            children: [
+                              Text(
+                                '${userData.firstName} •',
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(width: 5),
+                              Row(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if (userData.gender == 'Male')
+                                        Icon(Icons.male, color: Colors.blue)
+                                      else if (userData.gender == 'Female')
+                                        Icon(Icons.female, color: Colors.pinkAccent)
+                                      else if (userData.gender == 'Other')
+                                        Icon(Icons.transgender, color: Colors.purple),
+                                      Text(
+                                        '${userData.age}',
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 12,
+                                        height: 12,
+                                        decoration: BoxDecoration(
+                                          color: _isOnline ? Colors.green : Colors.grey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        _isOnline ? localizations.online : localizations.offline,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        _lastActive,
+                                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 5),
                           Text(
@@ -462,8 +498,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(_isEditingStatus ? Icons.check : Icons.edit,
-                                color: _isEditingStatus ? Colors.green : AppTheme.primaryColor),
+                            icon: Icon(
+                              _isEditingStatus ? Icons.check : Icons.edit,
+                              color: _isEditingStatus ? Colors.green : AppTheme.primaryColor,
+                            ),
                             onPressed: () {
                               setState(() {
                                 if (_isEditingStatus) {
@@ -552,7 +590,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                               ],
                             ),
-                            MomentsScreen(userId: userData.uid), // Include MomentsScreen
+                            MomentsScreen(userId: userData.uid),
                           ],
                         ),
                       ),
