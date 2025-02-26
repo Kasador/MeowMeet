@@ -37,3 +37,10 @@ And more...
 - **Cloud Functions** – Manages server-side logic for features like notifications and moderation.
 
 # 🛠️ 🐛 Progress/Bugs
+
+### 🚧 Preview Screenshots 
+╰┈➤
+
+<img width="300" alt="Image" src="https://github.com/user-attachments/assets/3c1a8742-b517-47f7-9fb0-399e6701a5ff" />
+<img width="300" alt="Image" src="https://github.com/user-attachments/assets/e6109391-1449-4d11-ae3b-6ced684d838b" />
+<img width="300" alt="Image" src="https://github.com/user-attachments/assets/431caa36-9e80-4765-b549-8a89215ba119" />
