@@ -52,3 +52,6 @@ post_install do |installer|
     end
   end
 end
+
+# Force compatible versions
+pod 'nanopb', '~> 3.30910.0'
