@@ -1,4 +1,6 @@
-# 🗂 MeowMeet
+# 🗂 Overview to **MeowMeet**
+
+<img width="229" alt="Image" src="https://github.com/user-attachments/assets/f265317d-6614-461a-8c15-dbcba4e43809" />
 
 ## 🗺️ **Connect, share, and discover moments with friends worldwide.**
 
